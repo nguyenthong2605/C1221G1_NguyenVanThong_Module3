@@ -2,19 +2,19 @@ create database quan_ly_ban_hang;
 use quan_ly_ban_hang;
 
 create table Customer(
-cID int primary key,
+cID int primary key auto_increment,
 cName varchar(20),
 cAge int 
 );
 
 create table Product(
-pID int primary key,
+pID int primary key auto_increment,
 pName varchar(20),
 pPrice double
 );
 
 create table Orders(
-oID int primary key,
+oID int primary key auto_increment,
 cID int, foreign key (cID) references Customer(cID),
 oDate datetime,
 oTotalPrice double
