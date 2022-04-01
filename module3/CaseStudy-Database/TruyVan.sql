@@ -37,9 +37,15 @@ right join hop_dong on hop_dong.ma_dich_vu = dich_vu.ma_dich_vu
 where hop_dong.ngay_lam_hop_dong not between '2021-01-01' and '2021-03-31'
 and hop_dong.ma_dich_vu not in (select hop_dong.ma_dich_vu from hop_dong where  hop_dong.ngay_lam_hop_dong between '2021-01-01' and '2021-03-31');
 
-
-
 -- Câu 7:
+select distinct dich_vu.ma_dich_vu, dich_vu.ten_dich_vu, dich_vu.dien_tich, dich_vu.so_nguoi_toi_da, dich_vu.chi_phi_thue, loai_dich_vu.ten_loai_dich_vu
+from dich_vu
+left join loai_dich_vu on loai_dich_vu.ma_loai_dich_vu = dich_vu.ma_loai_dich_vu
+inner join hop_dong on hop_dong.ma_dich_vu = dich_vu.ma_dich_vu
+inner join khach_hang on khach_hang.ma_khach_hang = hop_dong.ma_khach_hang
+where year(ngay_ket_thuc) = 2020
+and hop_dong.ma_dich_vu not in (select hop_dong.ma_dich_vu from hop_dong where year(ngay_ket_thuc) = 2021 );
+
 -- Câu 8:
 select distinct khach_hang.ho_ten
 from khach_hang;
@@ -53,6 +59,8 @@ from khach_hang;
 select khach_hang.ho_ten
 from khach_hang
 group by khach_hang.ho_ten
+
+-- Câu 9: 
 
 
 
