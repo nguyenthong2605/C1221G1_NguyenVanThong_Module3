@@ -49,18 +49,12 @@ email varchar(45),
 dia_chi varchar(45)
 );
 
-create table hop_dong(
-ma_hop_dong int primary key auto_increment,
-ngay_lam_hop_dong datetime not null,
-ngay_ket_thuc datetime not null,
-tien_dat_coc double not null,
-ma_nhan_vien int, foreign key(ma_nhan_vien) references nhan_vien(ma_nhan_vien),
-ma_khach_hang int, foreign key(ma_khach_hang) references khach_hang(ma_khach_hang),
-ma_dich_vu int, foreign key(ma_dich_vu) references dich_vu(ma_dich_vu)
+create table loai_dich_vu(
+ma_loai_dich_vu int primary key auto_increment,
+ten_loai_dich_vu varchar(45)
 );
 
 create table dich_vu_di_kem(
-
 ma_dich_vu_di_kem int primary key auto_increment,
 ten_dich_vu_di_kem varchar(45) not null,
 gia double not null,
@@ -68,21 +62,9 @@ don_vi varchar(10) not null,
 trang_thai varchar(45)
 );
 
-create table hop_dong_chi_tiet(
-ma_hop_dong_chi_tiet int primary key auto_increment,
-ma_hop_dong int, foreign key(ma_hop_dong) references hop_dong(ma_hop_dong),
-ma_dich_vu_di_kem int, foreign key(ma_dich_vu_di_kem) references dich_vu_di_kem(ma_dich_vu_di_kem),
-so_luong int not null
-);
-
 create table kieu_thue(
 ma_kieu_thue int primary key auto_increment,
 ten_kieu_thue varchar(45)
-);
-
-create table loai_dich_vu(
-ma_loai_dich_vu int primary key auto_increment,
-ten_loai_dich_vu varchar(45)
 );
 
 create table dich_vu(
@@ -98,6 +80,25 @@ so_tang int,
 ma_kieu_thue int, foreign key(ma_kieu_thue) references kieu_thue(ma_kieu_thue),
 ma_loai_dich_vu int, foreign key(ma_loai_dich_vu) references loai_dich_vu(ma_loai_dich_vu)
 );
+
+create table hop_dong(
+ma_hop_dong int primary key auto_increment,
+ngay_lam_hop_dong datetime not null,
+ngay_ket_thuc datetime not null,
+tien_dat_coc double not null,
+ma_nhan_vien int, foreign key(ma_nhan_vien) references nhan_vien(ma_nhan_vien),
+ma_khach_hang int, foreign key(ma_khach_hang) references khach_hang(ma_khach_hang),
+ma_dich_vu int, foreign key(ma_dich_vu) references dich_vu(ma_dich_vu)
+);
+
+
+create table hop_dong_chi_tiet(
+ma_hop_dong_chi_tiet int primary key auto_increment,
+so_luong int not null,
+ma_hop_dong int, foreign key(ma_hop_dong) references hop_dong(ma_hop_dong),
+ma_dich_vu_di_kem int, foreign key(ma_dich_vu_di_kem) references dich_vu_di_kem(ma_dich_vu_di_kem)
+);
+
 -- insert data
  insert into vi_tri(ten_vi_tri) value
  ('Quản Lý'),
@@ -204,7 +205,7 @@ insert into hop_dong(ngay_lam_hop_dong, ngay_ket_thuc, tien_dat_coc, ma_nhan_vie
 ('2021-05-25', '2021-05-27', 0, 7, 10, 1);
 
 insert into hop_dong_chi_tiet(so_luong, ma_hop_dong, ma_dich_vu_di_kem) value
-(5, 2, 5 );
+(5, 2, 4);
 insert into hop_dong_chi_tiet(so_luong, ma_hop_dong, ma_dich_vu_di_kem) value
 (8, 2, 5);
 insert into hop_dong_chi_tiet(so_luong, ma_hop_dong, ma_dich_vu_di_kem) value
