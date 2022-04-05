@@ -1,0 +1,23 @@
+body {
+    background-color: bisque;
+}
+h1{
+    margin-bottom: -25px ;
+    color: navy;
+    font-family: Algerian;
+    font-size: 100px;
+}
+hr {
+    margin-top: 0;
+    color: red;
+    background: grey;
+    border: 0px;
+    height: 1px;
+}
+#para1{
+    text-indent: 30px;
+}
+a {
+    color: blue;
+    text-decoration: none;
+}
