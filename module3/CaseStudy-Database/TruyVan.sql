@@ -270,7 +270,46 @@ delimiter ;
 drop trigger tr_xoa_hop_dong;
 set sql_safe_updates = 0;
 delete from hop_dong
-where hop_dong.ma_hop_dong = 5;
+where hop_dong.ma_hop_dong = 6;
+select so_luong from tong_so_luong_hop_dong_con_lai;
 set sql_safe_updates = 1;
 
+
 -- Câu 26: 
+delimiter //
+drop trigger if exists tr_cap_nhat_hop_dong //
+create trigger tr_cap_nhat_hop_dong after update  on hop_dong for each row
+begin
+	if datediff(new.ngay_ket_thuc, old.ngay_lam_hop_dong) < 2 then
+    signal sqlstate '45000' set message_text = 'Ngày kết thúc hợp đồng phải lớn hơn ngày làm hợp đồng ít nhất 2 ngày';
+    end if;
+end //
+delimiter ;
+update hop_dong 
+set ngay_ket_thuc = '2019-12-11' where (ma_hop_dong = 3);
+
+-- Câu 27:
+-- Câu a: 
+delimiter //
+drop function if exists func_dem_dich_vu //
+create function func_dem_dich_vu() returns integer
+deterministic 
+begin
+	create temporary table temp
+    (select count(distinct ma_dich_vu) from hop_dong where ma_dich_vu in (select distinct ma_dich_vu from hop_dong)
+    group by ma_dich_vu having sum(tong_tien) > 2000000);
+    set @tong_so_dich_vu = (select count(*) from temp);
+    drop temporary table temp;
+    return @tong_so_dich_vu;
+end //
+delimiter ;
+select func_dem_dich_vu() as 'Số lượng dịch vụ có tổng tiền trên 2000000';
+-- Câu b:
+delimiter //
+drop function if exists func_tinh_thoi_gian_hop_dong //
+create function func_tinh_thoi_gian_hop_dong() returns integer 
+deterministic
+begin
+	set @time_dai_nhat = (select )
+end //
+delimiter ;

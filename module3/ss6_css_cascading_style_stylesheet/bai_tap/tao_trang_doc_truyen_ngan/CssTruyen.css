@@ -1,0 +1,32 @@
+body {
+    background-image: url("https://dbk.vn/uploads/ckfinder/images/1-content/nen-trang-2.jpg");
+}
+.tieu-de {
+    text-align: center;
+    color: #03109a;
+    font-family: "Century Schoolbook";
+}
+.cac-chuong ul{
+    list-style: none;
+    margin-left: 430px;
+}
+.duong-ke-tren{
+    width: 600px;
+}
+.duong-ke-duoi {
+    width: 250px;
+}
+.cot-truyen {
+    line-height: 3;
+    margin-left: 200px;
+    font-size: 25px;
+}
+a{
+    color: grey;
+    text-decoration: none
+}
+marquee{
+    font-size:20px ;
+    color: #630763;
+    scrollamount: 50;
+}
