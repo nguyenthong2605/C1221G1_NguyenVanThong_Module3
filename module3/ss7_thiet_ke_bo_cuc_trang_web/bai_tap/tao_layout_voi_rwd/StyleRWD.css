@@ -1,0 +1,64 @@
+
+body {
+    font-family: Arial;
+    font-size: 20px;
+    height: 600px;
+}
+#phan-dau {
+    height: 80px;
+    padding: 0;
+    margin: 0;
+    background-color: #1a1919;
+    border: 1px solid #CDCDCD;
+}
+#phan-dau ul, #phan-dau li{
+    padding:0;
+    margin:0;
+}
+#phan-dau li{
+    position: relative;
+    float: left;
+    list-style: none;
+    margin: 0;
+    padding:0;
+}
+#phan-dau li a{
+    width:100px;
+    height: 80px;
+    display: block;
+    text-decoration:none;
+    text-align: center;
+    line-height: 80px;
+    background-color: #1a1919;
+    color: white;
+}
+#phan-dau ul ul li a{
+    width: 170px;
+    text-align: left;
+    padding-left: 10px;
+}
+#phan-dau li a:hover{
+    background-color:black;
+}
+#phan-dau ul ul{
+    position: absolute;
+    top: 80px;
+    left: 15px;
+    visibility: hidden;
+}
+#phan-dau ul li:hover ul{
+    visibility: visible;
+}
+#phan-than {
+    position: relative;
+}
+#phan-cuoi {
+    height: 80px;
+    width: 100%;
+    background: black;
+    color: #eeffee;
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    top: 570px;
+}

@@ -5,8 +5,8 @@ body {
     background-color: #135ae7;
     height: 80px;
     width: 100%;
-    position: relative;
     margin-left: 5px;
+    position: fixed;
 }
 #anh-dai-dien {
     background-image: url("https://scontent.fdad3-4.fna.fbcdn.net/v/t39.30808-6/277767309_2668536089958037_6502618463427567972_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=9mJXbsujImkAX8fot8f&_nc_ht=scontent.fdad3-4.fna&oh=00_AT9XBFC7Hvat7E7QYygOYehe2qO92fTk_nziBLr3Rp0NTw&oe=625433CF");
