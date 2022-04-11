@@ -310,6 +310,49 @@ drop function if exists func_tinh_thoi_gian_hop_dong //
 create function func_tinh_thoi_gian_hop_dong() returns integer 
 deterministic
 begin
-	set @time_dai_nhat = (select )
+	set @time_dai_nhat = (select max(datediff(hop_dong.ngay_ket_thuc, hop_dong.ngay_lam_hop_dong)) from hop_dong
+    where hop_dong.ma_khach_hang = ma_khach_hang);
+    return @time_dai_nhat;
 end //
 delimiter ;
+select func_tinh_thoi_gian_hop_dong(4) as "Thời gian dài nhất"
+
+-- Câu 28:
+
+delimiter //
+drop procedure if exists sp_xoa_dich_vu_va_hd_room;
+create procedure sp_xoa_dich_vu_va_hd_room()
+begin
+    alter table hop_dong
+        drop foreign key hop_dong_ibfk_3;
+    alter table hop_dong
+        add constraint hop_dong_ibfk_3 foreign key (ma_dich_vu) references dich_vu (ma_dich_vu) on delete set null;
+
+    alter table hop_dong_chi_tiet
+        drop foreign key hop_dong_chi_tiet_ibfk_1;
+    alter table hop_dong_chi_tiet
+        add constraint hop_dong_chi_tiet_ibfk_1 foreign key (ma_hop_dong) references hop_dong (ma_hop_dong) on delete set null;
+
+    drop temporary table if exists temp1;
+    CREATE TEMPORARY TABLE temp1
+    as (select dv.ma_dich_vu, hd.ma_hop_dong
+        from dich_vu dv
+                 inner join hop_dong hd on dv.ma_dich_vu = hd.ma_dich_vu
+        where ma_loai_dich_vu = 3
+          and year(ngay_lam_hop_dong) between 2015 and 2020);
+    CREATE VIEW view_temp
+    as
+    (
+    select dv.ma_dich_vu, hd.ma_hop_dong
+    from dich_vu dv
+             inner join hop_dong hd on dv.ma_dich_vu = hd.ma_dich_vu
+    where ma_loai_dich_vu = 3
+      and year(ngay_lam_hop_dong) between 2015 and 2020);
+    set sql_safe_updates = 0;
+    delete from dich_vu where dich_vu.ma_dich_vu in (select ma_dich_vu from view_temp);
+    delete from hop_dong where hop_dong.ma_hop_dong in (select ma_hop_dong from temp1);
+    set sql_safe_updates = 1;
+end //
+delimiter ;
+
+call sp_xoa_dich_vu_va_hd_room;
