@@ -65,7 +65,7 @@ public class UserServlet extends HttpServlet {
     }
 
     private void search(HttpServletRequest request, HttpServletResponse response) {
-        String name = request.getParameter("searchName");
+        String name = request.getParameter("name");
         List<User> userList = iUserService.searchByName(name);
         request.setAttribute("userList",userList);
         try {

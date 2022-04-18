@@ -140,7 +140,6 @@ public class UserRepository implements IUserRepository {
     public List<User> searchByName(String name) {
         List<User> userList = new ArrayList<>();
         Connection connection = baseRepository.getConnection();
-
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_BY_NAME);
             preparedStatement.setString(1, "%" + name + "%");
