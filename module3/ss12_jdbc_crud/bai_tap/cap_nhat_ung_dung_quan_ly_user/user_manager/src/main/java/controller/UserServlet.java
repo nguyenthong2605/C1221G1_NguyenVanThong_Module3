@@ -11,6 +11,8 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @WebServlet(name = "controller.UserServlet", value = "/users")
@@ -99,6 +101,12 @@ public class UserServlet extends HttpServlet {
     private void listUser(HttpServletRequest request, HttpServletResponse response) {
         List<User> userList = iUserService.selectAllUsers();
         request.setAttribute("userList", userList);
+        Collections.sort(userList, new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                return o1.getCountry().compareTo(o2.getCountry());
+            }
+        });
         try {
             request.getRequestDispatcher("list.jsp").forward(request, response);
         } catch (ServletException e) {
