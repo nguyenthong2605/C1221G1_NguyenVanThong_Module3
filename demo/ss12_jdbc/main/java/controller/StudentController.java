@@ -45,6 +45,8 @@ public class StudentController extends HttpServlet {
         }
         Integer id = null;
         Student student = new Student(id, name, dateOfBirth, gender, grade);
+
+
         Map<String, String> map = iStudentService.save(student);
         if (map.isEmpty()) {
             response.sendRedirect("/student");

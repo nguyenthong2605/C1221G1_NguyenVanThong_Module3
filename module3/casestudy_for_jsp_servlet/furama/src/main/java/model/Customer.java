@@ -25,6 +25,9 @@ public class Customer {
         this.diaChi = diaChi;
     }
 
+    public Customer(Integer maNhanVien, String hoTen, String ngaySinh, String soCMND, Double luong, String soDienThoai, String email, String diaChi, Integer maViTri, Integer maTrinhDo, Integer maBoPhan) {
+    }
+
     public Integer getMaKhachHang() {
         return maKhachHang;
     }

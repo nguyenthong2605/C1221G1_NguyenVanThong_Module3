@@ -5,13 +5,15 @@ import model.Customer;
 import java.util.List;
 
 public interface ICRUDRepository<E> {
-    List<E> selectAllCustomerType();
+    List<E> selectAll();
 
-    void insertCustomer(E e);
+    void insert(E e);
 
-    Customer selectCustomerById(Integer maKhachHang);
+    Customer selectById(Integer maKhachHang);
 
-    void ediCustomer(E e);
+    void edit(E e);
 
-    void deleteCustomer(Integer maKhachHang);
+    void delete(Integer maKhachHang);
+
+    List<E> searchByName(String hoTen);
 }

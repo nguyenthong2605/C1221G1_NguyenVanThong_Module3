@@ -12,34 +12,33 @@ import java.util.List;
 
 public class CustomerService implements ICustomerService {
     ICustomerRepository iCustomerRepository = new CustomerRepository();
-    ICustomerTypeRepository iCustomerTypeRepository = new CustomerTypeRepository();
     @Override
-    public List<Customer> selectAllCustomer() {
-        return iCustomerRepository.selectAllCustomerType();
+    public List<Customer> selectAll() {
+        return iCustomerRepository.selectAll();
     }
 
     @Override
-    public List<CustomerType> selectAllCustomerType() {
-        return iCustomerTypeRepository.selectAllCustomerType();
+    public void insert(Customer customer) {
+        iCustomerRepository.insert(customer);
     }
 
     @Override
-    public void insertCustomer(Customer customer) {
-        iCustomerRepository.insertCustomer(customer);
+    public Customer selectById(Integer maKhachHang) {
+        return iCustomerRepository.selectById(maKhachHang);
     }
 
     @Override
-    public Customer selectCustomerById(Integer maKhachHang) {
-        return iCustomerRepository.selectCustomerById(maKhachHang);
+    public void edit(Customer customer) {
+        iCustomerRepository.edit(customer);
     }
 
     @Override
-    public void ediCustomer(Customer customer) {
-        iCustomerRepository.ediCustomer(customer);
+    public void delete(Integer maKhachHang) {
+        iCustomerRepository.delete(maKhachHang);
     }
 
     @Override
-    public void deleteCustomer(Integer maKhachHang) {
-        iCustomerRepository.deleteCustomer(maKhachHang);
+    public List<Customer> searchByName(String hoTen) {
+        return iCustomerRepository.searchByName(hoTen);
     }
 }

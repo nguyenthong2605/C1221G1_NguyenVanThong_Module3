@@ -6,14 +6,16 @@ import model.CustomerType;
 import java.util.List;
 
 public interface ICustomerService {
-    List<Customer> selectAllCustomer();
-    List<CustomerType> selectAllCustomerType();
+    List<Customer> selectAll();
 
-    void insertCustomer(Customer customer);
+    void insert(Customer customer);
 
-    Customer selectCustomerById(Integer maKhachHang);
+    Customer selectById(Integer maKhachHang);
 
-    void ediCustomer(Customer customer);
+    void edit(Customer customer);
 
-    void deleteCustomer(Integer maKhachHang);
+    void delete(Integer maKhachHang);
+
+    List<Customer> searchByName(String hoTen);
+
 }

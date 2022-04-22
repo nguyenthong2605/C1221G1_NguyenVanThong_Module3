@@ -28,17 +28,14 @@
                 <h2>Thêm Mói Khách Hàng</h2>
             </caption>
             <tr>
+
                 <th>Mã loại khách:</th>
                 <td>
-                    <select name="maLoaiKhach" id="">
+                <select name="maLoaiKhach" id="">
                         <c:forEach var="customerType" items="${customerTypeList}">
-
                             <option value="${customerType.maLoaiKhach}">${customerType.tenLoaiKhachHang}</option>
-
                         </c:forEach>
                     </select>
-
-
                 </td>
             </tr>
             <tr>

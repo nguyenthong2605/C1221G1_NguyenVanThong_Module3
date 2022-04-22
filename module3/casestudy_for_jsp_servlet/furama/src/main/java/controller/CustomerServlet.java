@@ -3,7 +3,9 @@ package controller;
 import model.Customer;
 import model.CustomerType;
 import service.ICustomerService;
+import service.ICustomerTypeService;
 import service.impl.CustomerService;
+import service.impl.CustomerTypeService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +19,7 @@ import java.util.List;
 @WebServlet(name = "FuramaServlet", urlPatterns = "/customer")
 public class CustomerServlet extends HttpServlet {
     ICustomerService iCustomerService = new CustomerService();
+    ICustomerTypeService iCustomerTypeService = new CustomerTypeService();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
@@ -25,12 +28,12 @@ public class CustomerServlet extends HttpServlet {
         if (action == null) {
             action = "";
         }
-        switch (action){
+        switch (action) {
             case "create":
-                insertCustomer(request,response);
+                insertCustomer(request, response);
                 break;
             case "edit":
-                editCustomer(request,response);
+                editCustomer(request, response);
                 break;
             case "delete":
                 deleteCustomer(request, response);
@@ -41,7 +44,7 @@ public class CustomerServlet extends HttpServlet {
 
     private void deleteCustomer(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Integer maKhachHang = Integer.parseInt(request.getParameter("maKhachHang"));
-        iCustomerService.deleteCustomer(maKhachHang);
+        iCustomerService.delete(maKhachHang);
         response.sendRedirect("/customer");
     }
 
@@ -56,7 +59,7 @@ public class CustomerServlet extends HttpServlet {
         String email = request.getParameter("email");
         String diaChi = request.getParameter("diaChi");
         Customer customer = new Customer(maKhachHang, maLoaiKhach, hoTen, ngaySinh, gioiTinh, soCMND, soDienThoai, email, diaChi);
-        iCustomerService.ediCustomer(customer);
+        iCustomerService.edit(customer);
         try {
             response.sendRedirect("/customer");
         } catch (IOException e) {
@@ -75,7 +78,7 @@ public class CustomerServlet extends HttpServlet {
         String email = request.getParameter("email");
         String diaChi = request.getParameter("diaChi");
         Customer customer = new Customer(maKhachHang, maLoaiKhach, hoTen, ngaySinh, gioiTinh, soCMND, soDienThoai, email, diaChi);
-        iCustomerService.insertCustomer(customer);
+        iCustomerService.insert(customer);
         try {
             response.sendRedirect("/customer");
         } catch (IOException e) {
@@ -94,22 +97,37 @@ public class CustomerServlet extends HttpServlet {
                 showCreateCustomer(request, response);
                 break;
             case "edit":
-                showEditCustomer(request,response);
+                showEditCustomer(request, response);
                 break;
             case "delete":
                 break;
             case "search":
+                searchByName(request, response);
                 break;
             default:
                 showListCustomer(request, response);
         }
     }
 
+    private void searchByName(HttpServletRequest request, HttpServletResponse response) {
+        String hoTen = request.getParameter("search");
+//        Integer maKhachHang = Integer.parseInt(request.getParameter("search"));
+        List<Customer> customerList = iCustomerService.searchByName(hoTen);
+        request.setAttribute("customerList", customerList);
+        try {
+            request.getRequestDispatcher("view/customer/list.jsp").forward(request, response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void showEditCustomer(HttpServletRequest request, HttpServletResponse response) {
-        List<CustomerType> customerTypeList = iCustomerService.selectAllCustomerType();
+        List<CustomerType> customerTypeList = iCustomerTypeService.selectAllCustomerType();
         request.setAttribute("customerTypeList", customerTypeList);
         Integer maKhachHang = Integer.valueOf(request.getParameter("maKhachHang"));
-        Customer customer = iCustomerService.selectCustomerById(maKhachHang);
+        Customer customer = iCustomerService.selectById(maKhachHang);
         request.setAttribute("customer", customer);
         try {
             request.getRequestDispatcher("view/customer/edit.jsp").forward(request, response);
@@ -121,10 +139,10 @@ public class CustomerServlet extends HttpServlet {
     }
 
     private void showCreateCustomer(HttpServletRequest request, HttpServletResponse response) {
-        List<CustomerType> customerTypeList = iCustomerService.selectAllCustomerType();
+        List<CustomerType> customerTypeList = iCustomerTypeService.selectAllCustomerType();
         request.setAttribute("customerTypeList", customerTypeList);
         try {
-            request.getRequestDispatcher("view/customer/create.jsp").forward(request, response);
+            request.getRequestDispatcher("view/employee/create.jsp").forward(request, response);
         } catch (ServletException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -133,8 +151,8 @@ public class CustomerServlet extends HttpServlet {
     }
 
     private void showListCustomer(HttpServletRequest request, HttpServletResponse response) {
-        List<CustomerType> customerTypeList = iCustomerService.selectAllCustomerType();
-        List<Customer> customerList = iCustomerService.selectAllCustomer();
+        List<CustomerType> customerTypeList = iCustomerTypeService.selectAllCustomerType();
+        List<Customer> customerList = iCustomerService.selectAll();
         request.setAttribute("customerList", customerList);
         request.setAttribute("customerTypeList", customerTypeList);
         try {

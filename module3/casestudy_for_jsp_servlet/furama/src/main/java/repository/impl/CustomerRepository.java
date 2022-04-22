@@ -15,16 +15,19 @@ public class CustomerRepository implements ICustomerRepository {
 
     private static final String INSERT_CUSTOMER = "insert into khach_hang(ma_loai_khach, ho_ten, ngay_sinh, gioi_tinh, so_cmnd, so_dien_thoai, email, dia_chi ) value (?, ?, ?, ?, ?, ?, ?, ?)";
 
-    private static final String SELECT_CUSTOMER_BY_ID = "select * from khac_hang where ma_khach_hang=?";
+    private static final String SELECT_CUSTOMER_BY_ID = "select * from khach_hang where ma_khach_hang=?";
 
     private static final String UPDATE_CUSTOMER = "update khach_hang set ma_loai_khach=?, ho_ten=?, ngay_sinh=?, gioi_tinh=?, so_cmnd=?, so_dien_thoai=?, email=?, dia_chi=? where ma_khach_hang = ?";
 
     private static final String DELETE_CUSTOMER = "delete from khach_hang where ma_khach_hang = ?";
+
+    private static final String SEARCH_BY_NAME = "select * from khach_hang where ho_ten like ?";
+
     BaseRepository baseRepository = new BaseRepository();
 
 
     @Override
-    public List<Customer> selectAllCustomerType() {
+    public List<Customer> selectAll() {
         List<Customer> customerList = new ArrayList<>();
         Connection connection = baseRepository.getConnection();
         PreparedStatement preparedStatement = null;
@@ -56,7 +59,7 @@ public class CustomerRepository implements ICustomerRepository {
     }
 
     @Override
-    public void insertCustomer(Customer customer) {
+    public void insert(Customer customer) {
         Connection connection = baseRepository.getConnection();
         PreparedStatement preparedStatement = null;
         try {
@@ -83,7 +86,7 @@ public class CustomerRepository implements ICustomerRepository {
     }
 
     @Override
-    public Customer selectCustomerById(Integer maKhachHang) {
+    public Customer selectById(Integer maKhachHang) {
         Connection connection = baseRepository.getConnection();
         Customer customer = null;
         try {
@@ -115,7 +118,7 @@ public class CustomerRepository implements ICustomerRepository {
     }
 
     @Override
-    public void ediCustomer(Customer customer) {
+    public void edit(Customer customer) {
         Connection connection = baseRepository.getConnection();
         PreparedStatement preparedStatement = null;
         try {
@@ -128,7 +131,7 @@ public class CustomerRepository implements ICustomerRepository {
             preparedStatement.setString(6, customer.getSoDienThoai());
             preparedStatement.setString(7, customer.getEmail());
             preparedStatement.setString(8, customer.getDiaChi());
-            preparedStatement.setInt(9,customer.getMaKhachHang());
+            preparedStatement.setInt(9, customer.getMaKhachHang());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -142,22 +145,48 @@ public class CustomerRepository implements ICustomerRepository {
     }
 
     @Override
-    public void deleteCustomer(Integer maKhachHang) {
+    public void delete(Integer maKhachHang) {
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = this.baseRepository.getConnection().prepareStatement(DELETE_CUSTOMER);
-            preparedStatement.setInt(1,maKhachHang);
+            preparedStatement.setInt(1, maKhachHang);
             preparedStatement.executeUpdate();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 preparedStatement.close();
-            }catch (SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
 
+    }
+
+    @Override
+    public List<Customer> searchByName(String hoTen) {
+        List<Customer> customerList = new ArrayList<>();
+        Connection connection = baseRepository.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_BY_NAME);
+            preparedStatement.setString(1, "%" + hoTen + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Integer maKhachHang   = resultSet.getInt("ma_khach_hang");
+                Integer maLoaiKhach = resultSet.getInt("ma_loai_khach");
+                String hoTen1 = resultSet.getString("ho_ten");
+                String ngaySinh = resultSet.getString("ngay_sinh");
+                Integer gioiTinh = resultSet.getInt("gioi_tinh");
+                String soCMND = resultSet.getString("so_cmnd");
+                String soDienThoai = resultSet.getString("so_dien_thoai");
+                String email = resultSet.getString("email");
+                String diaChi = resultSet.getString("dia_chi");
+                customerList.add(new Customer(maKhachHang, maLoaiKhach, hoTen1, ngaySinh, gioiTinh, soCMND, soDienThoai, email, diaChi));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customerList;
     }
 }
 
